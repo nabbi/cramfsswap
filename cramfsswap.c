@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
   superblock_out[13] =          superblock_in[13] ;     /* Name 2/4 */
   superblock_out[14] =          superblock_in[14] ;     /* Name 3/4 */
   superblock_out[15] =          superblock_in[15] ;     /* Name 4/4 */
-  write(outfile, &superblock_out, sizeof(superblock_out));
+  (void)!write(outfile, &superblock_out, sizeof(superblock_out));
 
 
   /* Check Flags */
@@ -238,8 +238,8 @@ int main(int argc, char *argv[])
       memcpy(&inode, &inode_out, sizeof(inode_in));
     }
 
-    /* write the converted inode */
-    write(outfile, &inode_out, sizeof(inode_out));
+    /* (void)!write the converted inode */
+    (void)!write(outfile, &inode_out, sizeof(inode_out));
 
     /* Copy filename */
     if ( read(infile, &buffer, inode.namelen<<2) != inode.namelen<<2 )
@@ -247,7 +247,7 @@ int main(int argc, char *argv[])
       perror("while trying to read filename");
       exit(1);
     }
-    write(outfile, &buffer, inode.namelen<<2);
+    (void)!write(outfile, &buffer, inode.namelen<<2);
 
     /* Store the file size and file offset */
     filesize  [file] = inode.size;
@@ -299,7 +299,7 @@ int main(int argc, char *argv[])
       }
 
       blockpointer_out = bswap_32(blockpointer_in);
-      write(outfile, &blockpointer_out, 4);
+      (void)!write(outfile, &blockpointer_out, 4);
 
       filepos++;
     }
@@ -325,7 +325,7 @@ int main(int argc, char *argv[])
         perror("while trying to read file data");
         exit(1);
       }
-      write(outfile, &buffer, readbytes);
+      (void)!write(outfile, &buffer, readbytes);
       
       copybytes -= readbytes;
     }
@@ -338,7 +338,7 @@ int main(int argc, char *argv[])
   do
   {
     readbytes = read(infile, &buffer, BUFFERSIZE);
-    write(outfile, &buffer, readbytes);
+    (void)!write(outfile, &buffer, readbytes);
   } while ( readbytes>0 );
 
   /* recalculate the crc */
