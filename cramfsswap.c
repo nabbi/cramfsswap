@@ -238,7 +238,7 @@ int main(int argc, char *argv[])
       memcpy(&inode, &inode_out, sizeof(inode_in));
     }
 
-    /* (void)!write the converted inode */
+    /* write the converted inode */
     (void)!write(outfile, &inode_out, sizeof(inode_out));
 
     /* Copy filename */
